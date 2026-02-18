@@ -13,7 +13,8 @@ A full-stack movie application powered by [TMDB API](https://developer.themovied
 | **Database** | PostgreSQL 16 (via Docker Compose), Prisma 6 ORM |
 | **Auth** | Auth0 (JWT on backend, `@auth0/nextjs-auth0` on frontend) |
 | **Monitoring** | Sentry (error tracking + logging) |
-| **Monorepo** | pnpm workspaces |
+| **Runtime** | Bun (replaces ts-node, nodemon, dotenv) |
+| **Monorepo** | Bun workspaces |
 
 ---
 
@@ -132,8 +133,7 @@ Caching uses `node-cache` (simple in-memory TTL cache). Redis would be overkill 
 
 ```
 /
-├── pnpm-workspace.yaml
-├── package.json                          # Root workspace scripts
+├── package.json                          # Root workspace scripts (workspaces defined here)
 ├── docker-compose.yml                    # PostgreSQL
 ├── .env.example
 ├── .gitignore
@@ -141,7 +141,6 @@ Caching uses `node-cache` (simple in-memory TTL cache). Redis would be overkill 
 ├── backend/
 │   ├── package.json
 │   ├── tsconfig.json
-│   ├── nodemon.json
 │   ├── prisma/
 │   │   └── schema.prisma
 │   └── src/
@@ -240,9 +239,11 @@ Caching uses `node-cache` (simple in-memory TTL cache). Redis would be overkill 
 ## Dependencies
 
 ### Backend
-**Production:** `@apollo/server`, `@as-integrations/express4`, `express`, `cors`, `graphql`, `graphql-tag`, `@prisma/client`, `@sentry/node`, `express-oauth2-jwt-bearer`, `jwks-rsa`, `node-cache`, `dotenv`
+**Production:** `@apollo/server`, `@as-integrations/express4`, `express`, `cors`, `graphql`, `graphql-tag`, `@prisma/client`, `@sentry/node`, `express-oauth2-jwt-bearer`, `jwks-rsa`, `node-cache`
 
-**Dev:** `typescript`, `ts-node`, `nodemon`, `@types/node`, `@types/express`, `@types/cors`, `prisma`
+**Dev:** `typescript`, `@types/node`, `@types/express`, `@types/cors`, `prisma`
+
+> **Removed thanks to Bun:** `ts-node` (Bun runs TS natively), `nodemon` (Bun has `--watch`), `dotenv` (Bun loads `.env` automatically)
 
 ### Frontend
 **Additional** (on top of create-next-app defaults): `@apollo/client`, `@apollo/experimental-nextjs-app-support`, `graphql`, `@auth0/nextjs-auth0`
@@ -252,10 +253,10 @@ Caching uses `node-cache` (simple in-memory TTL cache). Redis would be overkill 
 ## Implementation Order
 
 ### Phase 1 — Project Scaffolding
-1. Root `package.json`, `pnpm-workspace.yaml`, `.gitignore`, `.env.example`
+1. Root `package.json` (with `workspaces`), `.gitignore`, `.env.example`
 2. `docker-compose.yml` for PostgreSQL
-3. Backend: `package.json`, `tsconfig.json`, `nodemon.json`, install deps
-4. Frontend: `create-next-app` with TypeScript + Tailwind, install extra deps
+3. Backend: `package.json`, `tsconfig.json`, install deps
+4. Frontend: `bunx create-next-app` with TypeScript + Tailwind, install extra deps
 
 ### Phase 2 — Backend Foundation
 5. Prisma schema + first migration (`prisma migrate dev --name init`)
@@ -291,7 +292,7 @@ Caching uses `node-cache` (simple in-memory TTL cache). Redis would be overkill 
 
 ### Phase 7 — Polish
 25. Loading states, error handling, skeletons
-26. Build verification (`pnpm build`)
+26. Build verification (`bun run build`)
 
 ---
 
@@ -318,18 +319,21 @@ Caching uses `node-cache` (simple in-memory TTL cache). Redis would be overkill 
 ## Getting Started (after implementation)
 
 ```bash
-# 1. Start PostgreSQL
+# 1. Install dependencies
+bun install
+
+# 2. Start PostgreSQL
 docker compose up -d
 
-# 2. Copy env files and fill in your keys
+# 3. Copy env files and fill in your keys
 cp .env.example backend/.env
 cp .env.example frontend/.env.local
 
-# 3. Run database migration
-pnpm db:migrate
+# 4. Run database migration
+bun run db:migrate
 
-# 4. Start both backend and frontend
-pnpm dev
+# 5. Start both backend and frontend
+bun run dev
 
 # Backend: http://localhost:4000/graphql (Apollo Sandbox)
 # Frontend: http://localhost:3000
