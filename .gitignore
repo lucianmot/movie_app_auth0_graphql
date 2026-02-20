@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables (never commit real secrets)
+.env
+.env.local
+.env.*.local
+
+# Prisma
+.prisma/
+
+# Test coverage
+coverage/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Bun
+# bun.lock is intentionally committed for reproducible builds
