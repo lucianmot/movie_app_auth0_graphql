@@ -1,0 +1,17 @@
+{
+  "name": "movie-app-auth0-graphql",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": ["backend"],
+  "scripts": {
+    "dev": "bun run --filter backend dev",
+    "build": "bun run --filter backend build",
+    "lint": "bun run --filter backend lint",
+    "lint:fix": "bun run --filter backend lint:fix",
+    "format": "bun run --filter backend format",
+    "format:check": "bun run --filter backend format:check",
+    "test": "bun run --filter backend test",
+    "db:migrate": "bun run --filter backend db:migrate",
+    "db:studio": "bun run --filter backend db:studio"
+  }
+}
