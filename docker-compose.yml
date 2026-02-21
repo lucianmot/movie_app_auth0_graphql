@@ -10,6 +10,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-movie_app}
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./backend/pgadmin/init-test-db.sql:/docker-entrypoint-initdb.d/init-test-db.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-postgres}"]
       interval: 5s
