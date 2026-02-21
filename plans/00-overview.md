@@ -44,7 +44,7 @@ Eight phases, each building on the last. Every phase ends with passing tests.
 
 ---
 
-## Phase 3 — Backend Skeleton
+## Phase 3 — Backend Skeleton `[DONE]`
 > Fastify + Apollo Server wired up, server starts, health check responds, Sentry captures errors.
 
 - `src/index.ts` — Fastify server creation, Apollo Server 4 integration via `@as-integrations/fastify`
@@ -64,7 +64,7 @@ Eight phases, each building on the last. Every phase ends with passing tests.
 
 ---
 
-## Phase 4 — Repositories & Services
+## Phase 4 — Services
 > Business logic layer complete — all data access through repositories, all logic through services, all tested.
 
 **Repositories** (full implementations, building on Phase 2 scaffolds):
@@ -82,6 +82,8 @@ Eight phases, each building on the last. Every phase ends with passing tests.
 - Repository integration tests: CRUD against `movie_app_test` DB
 - Service unit tests: mocked repositories via `vi.mock`, mocked TMDB HTTP responses
 - Edge cases: duplicate review (unique constraint), rating out of range, non-existent movie, TMDB API failure/timeout
+
+**Detailed plan**: [04-services.md](04-services.md)
 
 ---
 
