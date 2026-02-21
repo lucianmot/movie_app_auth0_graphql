@@ -12,6 +12,9 @@ dist/
 # Prisma
 .prisma/
 
+# Generated Prisma client (run `bun run db:generate` to regenerate)
+backend/src/generated/
+
 # Test coverage
 coverage/
 

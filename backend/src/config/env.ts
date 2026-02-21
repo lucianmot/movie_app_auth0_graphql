@@ -12,19 +12,33 @@ function optionalEnv(name: string, fallback: string): string {
 
 export const env = {
   // Database
-  DATABASE_URL: requireEnv('DATABASE_URL'),
+  get DATABASE_URL() {
+    return requireEnv('DATABASE_URL');
+  },
 
   // Auth0
-  AUTH0_DOMAIN: requireEnv('AUTH0_DOMAIN'),
-  AUTH0_AUDIENCE: requireEnv('AUTH0_AUDIENCE'),
+  get AUTH0_DOMAIN() {
+    return requireEnv('AUTH0_DOMAIN');
+  },
+  get AUTH0_AUDIENCE() {
+    return requireEnv('AUTH0_AUDIENCE');
+  },
 
   // TMDB
-  TMDB_API_KEY: requireEnv('TMDB_API_KEY'),
+  get TMDB_API_KEY() {
+    return requireEnv('TMDB_API_KEY');
+  },
 
   // Sentry
-  SENTRY_DSN: optionalEnv('SENTRY_DSN', ''),
+  get SENTRY_DSN() {
+    return optionalEnv('SENTRY_DSN', '');
+  },
 
   // Server
-  BACKEND_PORT: parseInt(optionalEnv('BACKEND_PORT', '4000'), 10),
-  FRONTEND_URL: optionalEnv('FRONTEND_URL', 'http://localhost:3000'),
-} as const;
+  get BACKEND_PORT() {
+    return parseInt(optionalEnv('BACKEND_PORT', '4000'), 10);
+  },
+  get FRONTEND_URL() {
+    return optionalEnv('FRONTEND_URL', 'http://localhost:3000');
+  },
+};

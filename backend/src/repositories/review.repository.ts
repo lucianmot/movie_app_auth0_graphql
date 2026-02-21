@@ -1,4 +1,4 @@
-import type { PrismaClient, MovieReview, Prisma } from '@prisma/client';
+import type { PrismaClient, MovieReview, Prisma } from '../generated/prisma/client/index.js';
 import prisma from '../config/database.js';
 
 export function createReviewRepository(db: PrismaClient = prisma) {
